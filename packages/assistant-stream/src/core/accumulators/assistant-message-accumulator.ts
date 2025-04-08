@@ -183,13 +183,28 @@ const handleResult = (
       return {
         ...part,
         state: "result",
-        artifact: chunk.artifact,
         result: chunk.result,
         isError: chunk.isError ?? false,
         status: { type: "complete", reason: "stop" },
       };
     } else {
       throw new Error("Result chunk received but part is not a tool-call");
+    }
+  });
+};
+
+const handleArtifact = (
+  message: AssistantMessage,
+  chunk: AssistantStreamChunk & { type: "artifact" },
+): AssistantMessage => {
+  return updatePartForPath(message, chunk, (part) => {
+    if (part.type === "tool-call") {
+      return {
+        ...part,
+        artifact: chunk.artifact,
+      };
+    } else {
+      throw new Error("Artifact chunk received but part is not a tool-call");
     }
   });
 };
@@ -323,12 +338,8 @@ export class AssistantMessageAccumulator extends TransformStream<
   AssistantStreamChunk,
   AssistantMessage
 > {
-  constructor({
-    initialMessage,
-  }: {
-    initialMessage?: AssistantMessage;
-  } = {}) {
-    let message = initialMessage ?? createInitialMessage();
+  constructor() {
+    let message: AssistantMessage = createInitialMessage();
     super({
       transform(chunk, controller) {
         const type = chunk.type;
@@ -350,6 +361,9 @@ export class AssistantMessageAccumulator extends TransformStream<
             break;
           case "result":
             message = handleResult(message, chunk);
+            break;
+          case "artifact":
+            message = handleArtifact(message, chunk);
             break;
           case "message-finish":
             message = handleMessageFinish(message, chunk);

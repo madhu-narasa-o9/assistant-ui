@@ -74,7 +74,20 @@ const transformTailwindToCss = async (entrypoints: string[]) => {
   await build({
     entry: entrypoints,
     outDir: "dist/styles",
+    sourcemap: true,
   });
+};
+
+const copyFiles = async (entrypoints: string[]) => {
+  await Promise.all(
+    entrypoints.map(async (entrypoint) => {
+      const source = entrypoint;
+      const target = "dist/" + entrypoint.split("/").slice(1).join("/");
+
+      await fs.mkdir(path.dirname(target), { recursive: true });
+      await fs.copyFile(source, target);
+    }),
+  );
 };
 
 export class Build {
@@ -101,18 +114,19 @@ export class Build {
   }
 
   public transpileCSS({
-    jsonEntrypoints,
-    cssEntrypoints = jsonEntrypoints,
+    tailwindEntrypoints,
+    cssEntrypoints = tailwindEntrypoints,
   }: {
-    jsonEntrypoints: string[];
+    tailwindEntrypoints: string[];
     cssEntrypoints?: string[];
   }) {
     this.initTask = this.initTask.then(() =>
-      transformCssToJson(jsonEntrypoints),
+      transformCssToJson(tailwindEntrypoints),
     );
     this.tasks.push(
       this.initTask.then(() => {
         return Promise.all([
+          copyFiles(tailwindEntrypoints), // tailwind direct imports
           transformTailwindToCss(cssEntrypoints), // css imports
         ]);
       }),

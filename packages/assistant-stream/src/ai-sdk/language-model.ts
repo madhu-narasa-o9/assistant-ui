@@ -22,11 +22,7 @@ export class LanguageModelV1StreamDecoder extends AssistantTransformStream<Langu
     super({
       transform(chunk, controller) {
         const { type } = chunk;
-        if (
-          type === "text-delta" ||
-          type === "reasoning" ||
-          type === "tool-call"
-        ) {
+        if (type !== "tool-call-delta" && type !== "error") {
           endCurrentToolCall();
         }
 
@@ -84,8 +80,9 @@ export class LanguageModelV1StreamDecoder extends AssistantTransformStream<Langu
             const toolController = controller.addToolCallPart({
               toolCallId,
               toolName,
-              argsText: args,
             });
+            toolController.argsText.append(JSON.stringify(args));
+            toolController.argsText.close();
             toolController.close();
             break;
           }
@@ -111,9 +108,6 @@ export class LanguageModelV1StreamDecoder extends AssistantTransformStream<Langu
             throw new Error(`Unhandled chunk type: ${unhandledType}`);
           }
         }
-      },
-      flush() {
-        endCurrentToolCall();
       },
     });
   }

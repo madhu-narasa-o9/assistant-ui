@@ -1,17 +1,17 @@
 "use client";
 
 import { LocalRuntimeOptions, useLocalRuntime } from "..";
-import { EdgeModelAdapterOptions, EdgeModelAdapter } from "./EdgeModelAdapter";
+import { EdgeChatAdapterOptions, EdgeChatAdapter } from "./EdgeChatAdapter";
 import { splitLocalRuntimeOptions } from "../local/LocalRuntimeOptions";
 
-export type EdgeRuntimeOptions = EdgeModelAdapterOptions & LocalRuntimeOptions;
+export type EdgeRuntimeOptions = EdgeChatAdapterOptions & LocalRuntimeOptions;
 
 export const useEdgeRuntime = (options: EdgeRuntimeOptions) => {
   const { localRuntimeOptions, otherOptions } =
     splitLocalRuntimeOptions(options);
 
   return useLocalRuntime(
-    new EdgeModelAdapter(otherOptions),
+    new EdgeChatAdapter(otherOptions),
     localRuntimeOptions,
   );
 };

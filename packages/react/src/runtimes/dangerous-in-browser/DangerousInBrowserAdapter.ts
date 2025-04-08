@@ -6,7 +6,7 @@ import { toCoreMessages } from "../edge/converters/toCoreMessages";
 import { toLanguageModelTools } from "../edge/converters/toLanguageModelTools";
 import { EdgeRuntimeRequestOptions } from "../edge/EdgeRuntimeRequestOptions";
 import { toolResultStream } from "../edge/streams/toolResultStream";
-import { asAsyncIterable } from "../edge/EdgeModelAdapter";
+import { asAsyncIterable } from "../edge/EdgeChatAdapter";
 import {
   CreateEdgeRuntimeAPIOptions,
   getEdgeRuntimeStream,

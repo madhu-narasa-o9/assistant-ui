@@ -1,6 +1,6 @@
 {
   "name": "assistant-stream",
-  "version": "0.0.30",
+  "version": "0.0.27",
   "license": "MIT",
   "exports": {
     ".": {
@@ -39,11 +39,11 @@
   },
   "devDependencies": {
     "@assistant-ui/tsconfig": "workspace:*",
-    "ai": "^4.3.2",
+    "ai": "^4.2.9",
     "eslint": "^9",
-    "eslint-config-next": "15.2.4",
-    "tsup": "8.4.0",
-    "tsx": "^4.19.3"
+    "eslint-config-next": "15.1.6",
+    "tsup": "8.3.6",
+    "tsx": "^4.19.2"
   },
   "publishConfig": {
     "access": "public"
@@ -57,7 +57,7 @@
     "url": "https://github.com/assistant-ui/assistant-ui/issues"
   },
   "dependencies": {
-    "nanoid": "5.1.5",
-    "secure-json-parse": "^4.0.0"
+    "nanoid": "3.3.8",
+    "secure-json-parse": "^3.0.2"
   }
 }

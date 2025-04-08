@@ -11,7 +11,6 @@ import {
   ThreadMessage,
   TextContentPart,
   CoreToolCallContentPart,
-  ToolCallContentPart,
 } from "../../../types/AssistantTypes";
 
 const assistantMessageSplitter = () => {
@@ -47,7 +46,7 @@ const assistantMessageSplitter = () => {
 
       assistantMessage.content.push(part);
     },
-    addToolCallPart: (part: CoreToolCallContentPart | ToolCallContentPart) => {
+    addToolCallPart: (part: CoreToolCallContentPart) => {
       assistantMessage.content.push({
         type: "tool-call",
         toolCallId: part.toolCallId,
@@ -59,7 +58,6 @@ const assistantMessageSplitter = () => {
         type: "tool-result",
         toolCallId: part.toolCallId,
         toolName: part.toolName,
-        ...("artifact" in part ? { artifact: part.artifact } : {}),
         result:
           part.result === undefined
             ? "Error: tool is has no configured code to run"

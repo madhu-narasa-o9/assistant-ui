@@ -55,7 +55,7 @@ export type ToolCallPart = {
   toolName: string;
   argsText: string;
   args: ReadonlyJSONObject;
-  artifact?: unknown;
+  artifact?: ReadonlyJSONValue;
   result?: ReadonlyJSONValue;
   isError?: boolean;
 };

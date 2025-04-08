@@ -19,8 +19,7 @@ import { formTools } from "./formTools";
 export type UseAssistantFormProps<
   TFieldValues extends FieldValues,
   TContext,
-  TTransformedValues,
-> = UseFormProps<TFieldValues, TContext, TTransformedValues> & {
+> = UseFormProps<TFieldValues, TContext> & {
   assistant?:
     | {
         tools?:
@@ -56,9 +55,9 @@ export type UseAssistantFormProps<
 export const useAssistantForm = <
   TFieldValues extends FieldValues = FieldValues,
   TContext = any,
-  TTransformedValues = TFieldValues,
+  TTransformedValues extends FieldValues | undefined = undefined,
 >(
-  props?: UseAssistantFormProps<TFieldValues, TContext, TTransformedValues>,
+  props?: UseAssistantFormProps<TFieldValues, TContext>,
 ): UseFormReturn<TFieldValues, TContext, TTransformedValues> => {
   const form = useForm<TFieldValues, TContext, TTransformedValues>(props);
   const { control, getValues, setValue } = form;

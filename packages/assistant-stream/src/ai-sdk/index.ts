@@ -22,11 +22,7 @@ export const fromStreamText = (
     transform(chunk, controller) {
       const { type } = chunk;
 
-      if (
-        type !== "tool-call-delta" &&
-        type !== "error" &&
-        (type as string) !== "tool-result"
-      ) {
+      if (type !== "tool-call-delta" && type !== "error") {
         endCurrentToolCallArgsText();
       }
 
@@ -64,9 +60,7 @@ export const fromStreamText = (
           };
           const toolController = toolControllers.get(toolCallId);
           if (!toolController) throw new Error("Tool call not found");
-          toolController.setResponse({
-            result,
-          });
+          toolController.setResult(result);
           toolController.close();
           toolControllers.delete(toolCallId);
           break;
@@ -173,9 +167,7 @@ export const fromStreamObject = (
         }
         case "finish": {
           toolCall.argsText.close();
-          toolCall.setResponse({
-            result: "{}",
-          });
+          toolCall.setResult("");
           break;
         }
 

@@ -1,9 +1,4 @@
 packages:
-  - packages/*
-  - examples/*
-  - apps/*
-
-onlyBuiltDependencies:
-  - '@sentry/cli'
-  - esbuild
-  - sharp
+  - "packages/*"
+  - "examples/*"
+  - "apps/*"

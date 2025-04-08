@@ -13,4 +13,3 @@ export {
 export { PlainTextDecoder, PlainTextEncoder } from "./serialization/PlainText";
 export { AssistantMessageStream } from "./accumulators/AssistantMessageStream";
 export type { AssistantMessage } from "./utils/types";
-export { ToolResponse } from "./ToolResponse";
